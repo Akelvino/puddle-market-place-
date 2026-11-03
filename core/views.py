@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Item
 
 # Create your views here.
@@ -11,7 +11,10 @@ def home(request):
     }
     return render(request, 'core/index.html', context)
 
-
+def detail(request, pk):
+    items = get_object_or_404(Item, id=pk)
+    context = {"items":items}
+    return render(request, 'core/details.html', context)
 
 def contact(request):
     return render(request, 'core/contact.html')

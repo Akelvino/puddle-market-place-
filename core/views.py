@@ -13,7 +13,8 @@ def home(request):
 
 def detail(request, pk):
     items = get_object_or_404(Item, id=pk)
-    context = {"items":items}
+    related_items = Item.objects.filter(category = items.category, is_sold=False).exclude(id=pk)[0:3]
+    context = {"items":items,"related_items":related_items}
     return render(request, 'core/details.html', context)
 
 def contact(request):

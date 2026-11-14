@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Category, Item
-from .forms import SignupForm, loginForm
+from .forms import SignupForm, loginForm, NewItem
 from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -47,3 +48,18 @@ def signup(request):
             return redirect('home')
     context = {"form":form}
     return render(request, 'core/login_register.html',context)
+
+@login_required
+def newItem(request):
+    form = NewItem()
+    if request.method == 'POST':
+        form = NewItem(request.POST, request.FILES)
+        if form.is_valid():
+            item = form.save(commit = False)
+            item.created_by = request.user
+            item.save()
+            return redirect('detail', pk=item.id)
+    context = {
+        "form":form
+    }
+    return render(request, 'core/item_form.html', context)

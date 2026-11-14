@@ -1,8 +1,12 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django import forms
+
+from .models import Item
 
 INPUT_CLASSES = "w-full py-4 px-6 rounded-xl bg-white outline-none border-0"
+INPUT_CLASSESs = 'w-full py-4 px-6 rounded-xl border'
 
 class loginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
@@ -43,4 +47,27 @@ class SignupForm(UserCreationForm):
         "placeholder":"Confirm your password",
         "class":INPUT_CLASSES
     }))
-    
+
+
+class NewItem(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ('category','name','description','price','image')
+
+        widgets = {
+            'category' : forms.Select(attrs={
+                'class' : INPUT_CLASSESs
+            }),  
+            'name' : forms.TextInput(attrs={
+                'class' : INPUT_CLASSESs
+            }),  
+            'description' : forms.Textarea(attrs={
+                'class' : INPUT_CLASSESs
+            }),  
+            'price' : forms.TextInput(attrs={
+                'class' : INPUT_CLASSESs
+            }),
+            'image' : forms.FileInput(attrs={
+                'class' : INPUT_CLASSESs
+            })
+        }

@@ -63,3 +63,11 @@ def newItem(request):
         "form":form
     }
     return render(request, 'core/item_form.html', context)
+
+@login_required
+def dashboard(request):
+    items = Item.objects.filter(created_by = request.user)
+    context = {
+        "items":items
+    }
+    return render(request, 'core/dashboard.html', context)

@@ -77,3 +77,19 @@ def delete(request, pk):
     items = get_object_or_404(Item, id=pk)
     items.delete()
     return redirect('home')
+
+@login_required
+def editItems(request, pk):
+    item = Item.objects.get(id=pk)
+    form = NewItem(instance=item)
+    if request.method =='POST':
+        form = NewItem(request.POST, request.FILES, instance=item)
+        if form.is_valid():
+            form.save()
+            return redirect('detail',pk=item.id )
+    context ={
+         "item":item,
+         "form":form  
+     }
+
+    return render(request, 'core/item_form.html', context)

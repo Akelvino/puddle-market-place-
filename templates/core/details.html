@@ -19,7 +19,7 @@
 
             {% if request.user == items.created_by %}
                 <div class="flex gap-5">
-                    <a href="#" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700 transition-all ease-in-out">Edit</a>
+                    <a href="{% url 'edit-item' items.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700 transition-all ease-in-out">Edit</a>
                     <a href="{% url 'delete-item' items.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl hover:bg-red-700 transition-all ease-in-out">Delete</a>
                 </div>
             {% endif %}

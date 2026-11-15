@@ -71,3 +71,9 @@ def dashboard(request):
         "items":items
     }
     return render(request, 'core/dashboard.html', context)
+
+@login_required
+def delete(request, pk):
+    items = get_object_or_404(Item, id=pk)
+    items.delete()
+    return redirect('home')

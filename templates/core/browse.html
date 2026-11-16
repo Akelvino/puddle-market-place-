@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Browse{% endblock title %}
+{% block content %}
+
+<div class="grid grid-cols-3">
+    <div>
+        <h1 class="text-4xl font-bold text-center mb-3">Categories</h1>
+        <hr class="mr-3 text-gray-300">
+        
+        <div class="cursor-pointer text-lg text-blue-500 ">
+            <div class="hover:underline">
+                <a href="{% url 'browse-item' %}">All</a>
+            </div>
+            {% for category in categories %}
+                <div class="my-10 hover:underline">
+                   <a href="{% url 'browse-item' %}?q={{ category.name }}"> {{ category.name }}</a>
+                </div>
+            {% endfor %}  
+        </div>
+    </div>
+    <div class="col-span-2">
+        <div class="mt-6 p-6 py-12 bg-gray-100 rounded-xl">
+            <h2 class="mb-12 text-2xl text-center">Items</h2>
+
+            <div class="grid grid-cols-3 gap-3">
+                {% for item in items %}
+                <div>
+                    <a href="{% url 'detail' item.id %}">
+                        <div>
+                            <img src="{{ item.image.url }}" class="rounded-xl" alt="">
+                        </div>
+                        <div class="p-6 bg-white rounded-b-xl">
+                            <h2 class="text-2xl">{{ item.name }}</h2>
+                            <p class="text-gray-500">{{ item.price }}</p>
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

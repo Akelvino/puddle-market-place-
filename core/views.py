@@ -3,6 +3,7 @@ from .models import Category, Item
 from .forms import SignupForm, loginForm, NewItem
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 # Create your views here.
@@ -93,3 +94,14 @@ def editItems(request, pk):
      }
 
     return render(request, 'core/item_form.html', context)
+
+def browseItems(request):
+    categories = Category.objects.all()
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    items = Item.objects.filter(category__name__icontains=q)
+    context = {
+        "categories":categories,
+        "items":items
+    }
+
+    return render(request, 'core/browse.html', context)
